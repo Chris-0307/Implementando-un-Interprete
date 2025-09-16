@@ -8,4 +8,7 @@ program p {
   println true == false;      
   
   println 2@3;
+  
+  println 3 P 2;
+  println 5 P 3;
 }

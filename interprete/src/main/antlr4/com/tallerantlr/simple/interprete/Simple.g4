@@ -78,7 +78,9 @@ addExpr returns [ASTNode node]
 
 multExpr returns [ASTNode node]
     : t1=term                 { $node = $t1.node; }
-      ( MULT t2=term          { $node = new Multiplication($node, $t2.node); } )*
+      ( MULT t2=term          { $node = new Multiplication($node, $t2.node); }
+      | PERM t3=term          { $node = new Permutation($node, $t3.node); }
+      )*
     ;
 
 term returns [ASTNode node]
@@ -123,6 +125,8 @@ PAR_CLOSE: ')';
 SEMICOLON: ';';
 
 BOOLEAN: 'true' | 'false';
+
+PERM: 'P';
 
 ID: [a-zA-Z_][a-zA-Z0-9_]*;
 
