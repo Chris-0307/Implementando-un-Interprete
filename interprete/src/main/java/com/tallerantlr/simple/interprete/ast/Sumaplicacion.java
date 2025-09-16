@@ -16,8 +16,6 @@ public class Sumaplicacion implements ASTNode {
         Object aObj = left.execute(symbolTable);
         Object bObj = right.execute(symbolTable);
 
-        // Asumimos enteros, igual que Addition/Multiplication.
-        // (Si quieres mensajes de error más claros, puedes chequear tipos aquí.)
         int a = (int) aObj;
         int b = (int) bObj;
 

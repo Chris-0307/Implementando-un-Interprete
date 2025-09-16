@@ -64,22 +64,29 @@ var_assign returns [ASTNode node]:
 ;		
 			
 		
-expression returns [ASTNode node]: 
-		t1=factor {$node = $t1.node;}
-			 (
-        PLUS t2=factor           { $node = new Addition($node, $t2.node); }
-      | AT   t3=factor           { $node = new Sumaplicacion($node, $t3.node); }
-      )*;
-			 
-factor returns [ASTNode node]: 
-		t1=term {$node = $t1.node;} 
-			(MULT t2=term {$node = new Multiplication($node, $t2.node);})*;
+expression returns [ASTNode node]
+    : a=addExpr               { $node = $a.node; }
+      ( EQ b=addExpr          { $node = new Equal($node, $b.node); } )*
+    ;
 
-term returns [ASTNode node]:
-	NUMBER {$node = new Constant(Integer.parseInt($NUMBER.text));} | 
-	BOOLEAN {$node = new Constant(Boolean.parseBoolean($BOOLEAN.text));} |
-	ID {$node = new VarRef($ID.text);}	|
-	PAR_OPEN expression {$node = $expression.node;} PAR_CLOSE;
+addExpr returns [ASTNode node]
+    : t1=multExpr             { $node = $t1.node; }
+      ( PLUS t2=multExpr      { $node = new Addition($node, $t2.node); }
+      | AT   t3=multExpr      { $node = new Sumaplicacion($node, $t3.node); }
+      )*
+    ;
+
+multExpr returns [ASTNode node]
+    : t1=term                 { $node = $t1.node; }
+      ( MULT t2=term          { $node = new Multiplication($node, $t2.node); } )*
+    ;
+
+term returns [ASTNode node]
+    : NUMBER                  { $node = new Constant(Integer.parseInt($NUMBER.text)); }
+    | BOOLEAN                 { $node = new Constant(Boolean.parseBoolean($BOOLEAN.text)); }
+    | ID                      { $node = new VarRef($ID.text); }
+    | PAR_OPEN expression     { $node = $expression.node; } PAR_CLOSE
+    ;
 
 
 PROGRAM: 'program';

@@ -1,9 +1,11 @@
-program miprograma {
-	var x;
-	x = 5;
-	if (false) {
-		println 2+2*4;
-	} else {
-		println x;
-	}
+program p {
+  var x;
+  x = 5;
+  println 2 + 2 * 4 == 10;    
+  println x == 5;            
+  println (x + 1) == 6;     
+  println false == (2 == 3); 
+  println true == false;      
+  
+  println 2@3;
 }
