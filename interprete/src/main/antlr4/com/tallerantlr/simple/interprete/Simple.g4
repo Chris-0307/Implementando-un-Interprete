@@ -66,7 +66,10 @@ var_assign returns [ASTNode node]:
 		
 expression returns [ASTNode node]: 
 		t1=factor {$node = $t1.node;}
-			 (PLUS t2=factor {$node = new Addition($node, $t2.node);})*;
+			 (
+        PLUS t2=factor           { $node = new Addition($node, $t2.node); }
+      | AT   t3=factor           { $node = new Sumaplicacion($node, $t3.node); }
+      )*;
 			 
 factor returns [ASTNode node]: 
 		t1=term {$node = $t1.node;} 
@@ -89,6 +92,7 @@ PLUS: '+';
 MINUS: '-';
 MULT: '*';
 DIV: '/';
+AT: '@'; 
 
 AND: '&&';
 OR: '||';
